@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 
 from filter import matches_audit
 from .base import Opportunity
-from .playwright_base import PlaywrightScraper, browser_page, dismiss_cookie_banner
+from .playwright_base import PlaywrightScraper, autoscroll, browser_page, dismiss_cookie_banner
 
 
 class FreelanceNlScraper(PlaywrightScraper):
@@ -40,13 +40,16 @@ class FreelanceNlScraper(PlaywrightScraper):
                 except Exception:
                     pass
                 page.wait_for_timeout(1500)
+                autoscroll(page)
 
                 anchors = page.locator("a[href*='/opdracht/'], a[href*='/opdrachten/']")
                 count = anchors.count()
+                self.log.info("%s: %d anchor(s) matched href filter", url, count)
                 if count == 0:
                     self.log.warning("No assignment links at %s", url)
                     continue
 
+                yielded_before = len(seen)
                 for i in range(min(count, 80)):
                     a = anchors.nth(i)
                     try:
@@ -73,3 +76,4 @@ class FreelanceNlScraper(PlaywrightScraper):
                         url=full,
                         description=snippet,
                     )
+                self.log.info("%s: %d new audit-matching opportunities", url, len(seen) - yielded_before)

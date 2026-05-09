@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 
 from filter import matches_audit
 from .base import Opportunity
-from .playwright_base import PlaywrightScraper, browser_page, dismiss_cookie_banner
+from .playwright_base import PlaywrightScraper, autoscroll, browser_page, dismiss_cookie_banner
 
 
 class StriiveScraper(PlaywrightScraper):
@@ -35,15 +35,18 @@ class StriiveScraper(PlaywrightScraper):
                 except Exception:
                     pass
                 page.wait_for_timeout(2000)
+                autoscroll(page)
 
                 anchors = page.locator(
                     "a[href*='/opdracht/'], a[href*='/opdrachten/'], a[href*='/assignment/']"
                 )
                 count = anchors.count()
+                self.log.info("%s: %d anchor(s) matched href filter", url, count)
                 if count == 0:
                     self.log.warning("No assignment links at %s", url)
                     continue
 
+                yielded_before = len(seen)
                 for i in range(min(count, 80)):
                     a = anchors.nth(i)
                     try:
@@ -72,3 +75,4 @@ class StriiveScraper(PlaywrightScraper):
                         url=full,
                         description=snippet,
                     )
+                self.log.info("%s: %d new audit-matching opportunities", url, len(seen) - yielded_before)

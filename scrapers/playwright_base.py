@@ -63,6 +63,16 @@ def dismiss_cookie_banner(page) -> None:
             continue
 
 
+def autoscroll(page, steps: int = 6, pause_ms: int = 500) -> None:
+    """Scroll to the bottom in chunks to trigger lazy-loading listings."""
+    try:
+        for _ in range(steps):
+            page.evaluate("window.scrollBy(0, document.body.scrollHeight)")
+            page.wait_for_timeout(pause_ms)
+    except Exception:
+        pass
+
+
 class PlaywrightScraper(Scraper):
     """Base class for SPA sites that need a real browser."""
     use_playwright = True

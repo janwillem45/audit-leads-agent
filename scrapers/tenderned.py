@@ -18,10 +18,26 @@ class TenderNedScraper(Scraper):
     BASE = "https://www.tenderned.nl"
     API = "https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicaties"
     PAGE_SIZE = 100
-    MAX_PAGES = 4  # ~400 most recent publications
+    MAX_PAGES = 10  # ~1000 most recent publications
+
+    @staticmethod
+    def _extract_link(item: dict, pub_id: str, base: str) -> str:
+        raw = item.get("link")
+        href = ""
+        if isinstance(raw, dict):
+            href = (raw.get("href") or "").strip()
+        elif isinstance(raw, str):
+            href = raw.strip()
+        if not href:
+            href = f"{base}/aankondigingen/overzicht/{pub_id}"
+        elif not href.startswith("http"):
+            href = f"{base}{href}"
+        return href
 
     def scrape(self) -> Iterable[Opportunity]:
         seen_ids: set[str] = set()
+        total_seen = 0
+        total_matched = 0
         for page in range(self.MAX_PAGES):
             url = f"{self.API}?page={page}&size={self.PAGE_SIZE}"
             try:
@@ -43,11 +59,14 @@ class TenderNedScraper(Scraper):
                 self.log.info("Page %d empty, stopping pagination", page)
                 break
 
+            total_seen += len(items)
+
             for item in items:
+                if not isinstance(item, dict):
+                    continue
                 pub_id = str(item.get("publicatieId") or "").strip()
-                title = (item.get("aanbestedingNaam") or "").strip()
-                description = (item.get("opdrachtBeschrijving") or "").strip()
-                link = (item.get("link") or "").strip()
+                title = str(item.get("aanbestedingNaam") or "").strip()
+                description = str(item.get("opdrachtBeschrijving") or "").strip()
                 if not pub_id or not title:
                     continue
                 if pub_id in seen_ids:
@@ -55,21 +74,19 @@ class TenderNedScraper(Scraper):
                 if not matches_audit(title, description):
                     continue
                 seen_ids.add(pub_id)
-
-                if link and not link.startswith("http"):
-                    link = f"{self.BASE}{link}"
-                if not link:
-                    link = f"{self.BASE}/aankondigingen/overzicht/{pub_id}/details"
+                total_matched += 1
 
                 yield Opportunity(
                     source=self.name,
                     external_id=pub_id,
                     title=title,
-                    url=link,
-                    company=item.get("opdrachtgeverNaam") or None,
+                    url=self._extract_link(item, pub_id, self.BASE),
+                    company=str(item.get("opdrachtgeverNaam") or "") or None,
                     location="Nederland",
                     rate=None,
                     deadline=None,
                     description=description[:600] if description else None,
                     posted_at=item.get("publicatieDatum"),
                 )
+
+        self.log.info("Scanned %d publications, matched %d on audit keywords", total_seen, total_matched)
