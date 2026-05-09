@@ -91,14 +91,10 @@ def main() -> int:
 
     opportunities = collect_all(debug=args.debug)
 
-    new_opps: list[Opportunity] = []
-    for opp in opportunities:
-        key = f"{opp.source}::{opp.external_id}"
-        if key in state:
-            continue
-        new_opps.append(opp)
-        state[key] = datetime.now(timezone.utc).isoformat()
-
+    new_opps: list[Opportunity] = [
+        opp for opp in opportunities
+        if f"{opp.source}::{opp.external_id}" not in state
+    ]
     log.info("New opportunities (after dedup): %d", len(new_opps))
 
     try:
@@ -107,6 +103,13 @@ def main() -> int:
         log.exception("Notification failed: %s", e)
         return 1
 
+    if args.dry_run:
+        log.info("Dry-run: state not updated (%d entries unchanged)", len(state))
+        return 0
+
+    now_iso = datetime.now(timezone.utc).isoformat()
+    for opp in new_opps:
+        state[f"{opp.source}::{opp.external_id}"] = now_iso
     save_state(state)
     log.info("State saved (%d total entries)", len(state))
     return 0
