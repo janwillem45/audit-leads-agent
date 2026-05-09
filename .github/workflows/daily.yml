@@ -1,0 +1,63 @@
+name: Daily audit-leads scan
+
+on:
+  schedule:
+    # GitHub cron is UTC. We register two times so that exactly one fires
+    # at 23:00 Europe/Amsterdam local time year-round; run.py guards on local hour.
+    - cron: '0 22 * * *'   # 23:00 CET (winter)
+    - cron: '0 21 * * *'   # 23:00 CEST (summer)
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Run without sending email'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: audit-leads-daily
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Run scan
+        env:
+          OMNIFOCUS_MAILDROP: ${{ secrets.OMNIFOCUS_MAILDROP }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          SMTP_FROM: ${{ secrets.SMTP_FROM }}
+          EMAIL_CC: ${{ secrets.EMAIL_CC }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
+            python run.py --dry-run --force --debug
+          else
+            python run.py
+          fi
+
+      - name: Commit updated state
+        if: success()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          if [ -n "$(git status --porcelain state/seen.json)" ]; then
+            git add state/seen.json
+            git commit -m "chore: update seen state $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          else
+            echo "No state changes to commit."
+          fi
