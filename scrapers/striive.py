@@ -3,61 +3,72 @@ from __future__ import annotations
 from typing import Iterable
 from urllib.parse import urljoin
 
-from bs4 import BeautifulSoup
-
 from filter import matches_audit
-from .base import Opportunity, Scraper
+from .base import Opportunity
+from .playwright_base import PlaywrightScraper, browser_page, dismiss_cookie_banner
 
 
-class StriiveScraper(Scraper):
-    """Striive (formerly Select) public assignment marketplace."""
+class StriiveScraper(PlaywrightScraper):
+    """Striive is a JavaScript SPA. We render with Playwright and pull
+    listings from the rendered DOM.
+    """
 
     name = "striive"
-    BASE = "https://www.striive.com"
+    BASE = "https://striive.com"
     SEARCH_URLS = [
-        "https://www.striive.com/nl/opdrachten?q=audit",
-        "https://www.striive.com/nl/opdrachten?q=auditor",
+        "https://striive.com/nl/opdrachten?term=audit",
+        "https://striive.com/nl/opdrachten?term=auditor",
     ]
 
     def scrape(self) -> Iterable[Opportunity]:
         seen: set[str] = set()
-        for url in self.SEARCH_URLS:
-            try:
-                html = self.fetch(url).text
-            except Exception as e:
-                self.log.warning("Fetch failed for %s: %s", url, e)
-                continue
-
-            soup = BeautifulSoup(html, "lxml")
-            items = (
-                soup.select(".assignment-card, .opdracht-card, article")
-                or soup.select("a[href*='/opdracht/'], a[href*='/assignment/']")
-            )
-
-            if not items:
-                self.log.warning("No items found at %s — selectors likely need tuning", url)
-                continue
-
-            for item in items:
-                a = item if item.name == "a" else item.find("a", href=True)
-                if not a or not a.get("href"):
+        with browser_page() as page:
+            for url in self.SEARCH_URLS:
+                try:
+                    page.goto(url, wait_until="domcontentloaded", timeout=30000)
+                except Exception as e:
+                    self.log.warning("goto failed for %s: %s", url, e)
                     continue
-                href = urljoin(self.BASE, a["href"])
-                if not any(seg in href for seg in ("/opdracht", "/assignment")):
-                    continue
-                if href in seen:
-                    continue
-                seen.add(href)
+                dismiss_cookie_banner(page)
+                try:
+                    page.wait_for_load_state("networkidle", timeout=10000)
+                except Exception:
+                    pass
+                page.wait_for_timeout(2000)
 
-                title = (a.get_text(strip=True) or item.get_text(" ", strip=True))[:200]
-                snippet = item.get_text(" ", strip=True)[:500]
-                if not matches_audit(title, snippet):
-                    continue
-
-                yield Opportunity(
-                    source=self.name,
-                    external_id=href,
-                    title=title,
-                    url=href,
-                    description=snippet,
+                anchors = page.locator(
+                    "a[href*='/opdracht/'], a[href*='/opdrachten/'], a[href*='/assignment/']"
                 )
+                count = anchors.count()
+                if count == 0:
+                    self.log.warning("No assignment links at %s", url)
+                    continue
+
+                for i in range(min(count, 80)):
+                    a = anchors.nth(i)
+                    try:
+                        href = a.get_attribute("href") or ""
+                        text = (a.inner_text() or "").strip()
+                    except Exception:
+                        continue
+                    if not href or not text:
+                        continue
+                    full = urljoin(self.BASE, href)
+                    if full.rstrip("/") in {self.BASE + "/nl/opdrachten", self.BASE + "/nl/opdracht"}:
+                        continue
+                    if full in seen:
+                        continue
+
+                    title = text.split("\n")[0][:200]
+                    snippet = text[:500]
+                    if not matches_audit(title, snippet):
+                        continue
+
+                    seen.add(full)
+                    yield Opportunity(
+                        source=self.name,
+                        external_id=full,
+                        title=title,
+                        url=full,
+                        description=snippet,
+                    )

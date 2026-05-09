@@ -2,20 +2,20 @@
 
 Scant elke avond om **23:00 Europe/Amsterdam** een set Nederlandse opdrachten- en aanbestedingenplatformen op audit-gerelateerde freelance opdrachten en stuurt elke nieuwe lead als losse mail naar OmniFocus Mail Drop, zodat ze als taak in je inbox landen.
 
-## Bronnen (fase 1)
+## Bronnen
 
 | Bron | Type | Status |
 |---|---|---|
-| TenderNed | RSS-feed | Stabiel |
-| Freelance.nl | HTML-scrape | Selectors te tunen |
-| Hoofdkraan.nl | HTML-scrape | Selectors te tunen |
-| Jellow | HTML-scrape | Selectors te tunen |
-| Striive | HTML-scrape | Selectors te tunen |
-| ZZP-Markt | HTML-scrape | Selectors te tunen |
-| Inhuurdesk | HTML-scrape | Selectors te tunen |
-| Planet Interim | HTML-scrape | Selectors te tunen |
+| TenderNed | JSON API (officieel) | ✅ Stabiel — overheidsaanbestedingen |
+| Freelance.nl | Playwright (SPA) | ⚠️ Best-effort — kan tuning nodig hebben |
+| Striive | Playwright (SPA) | ⚠️ Best-effort — kan tuning nodig hebben |
+| ZZP-Opdrachten.nl | Playwright (SPA) | ⚠️ Best-effort — overheids-zzp marktplaats |
+| Hoofdkraan | Disabled | ❌ Anti-bot blokkeert ons |
+| Jellow | Disabled | ❌ Vereist login |
+| Inhuurdesk | Disabled | ❌ Geen publieke listings |
+| Planet Interim | Disabled | ❌ Anti-bot blokkeert ons |
 
-> **Let op:** voor de HTML-scrapers zijn de CSS-selectors een best-effort startpunt. Sites herzien hun frontend regelmatig. Draai eerst `python run.py --dry-run --force --debug` lokaal of via `workflow_dispatch` met `dry_run=true` en bekijk de logs — als een bron 0 items oplevert, moet je in `scrapers/<bron>.py` de `select(...)` calls aanpassen aan de huidige DOM.
+**TenderNed** is solide en geeft je dagelijks de overheids-audits (IT-audit, financial audit, ISO, AVG). De drie Playwright-bronnen draaien in een echte headless Chromium en kunnen, afhankelijk van DOM-wijzigingen, selector-tuning nodig hebben. De disabled bronnen kun je later inschakelen als we een strategie hebben (login/stealth-browser).
 
 ## Setup
 
@@ -64,6 +64,7 @@ Dit logt wat hij gevonden zou hebben zonder mails te sturen. Daarna draait hij e
 cd /Users/janwillemwalravens/audit-leads-agent
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
+python -m playwright install chromium
 python run.py --dry-run --force --debug
 ```
 

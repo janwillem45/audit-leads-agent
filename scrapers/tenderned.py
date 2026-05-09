@@ -1,64 +1,75 @@
 from __future__ import annotations
 
 from typing import Iterable
-from urllib.parse import quote_plus
-
-import feedparser
 
 from filter import matches_audit
 from .base import Opportunity, Scraper
 
 
 class TenderNedScraper(Scraper):
-    """TenderNed publishes RSS feeds keyed on a search query.
+    """TenderNed publishes a public JSON publication API.
 
-    Feed URL format (publicly accessible):
-        https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicaties/rss?zoekwoorden=<query>
+    Endpoint: https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicaties
+    Returns the most recent publications across all categories. We page
+    through the latest N and filter client-side on audit keywords.
     """
 
     name = "tenderned"
     BASE = "https://www.tenderned.nl"
-    QUERIES = [
-        "audit",
-        "auditor",
-        "interne audit",
-        "IT-audit",
-        "ISO 27001",
-    ]
+    API = "https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicaties"
+    PAGE_SIZE = 100
+    MAX_PAGES = 4  # ~400 most recent publications
 
     def scrape(self) -> Iterable[Opportunity]:
         seen_ids: set[str] = set()
-        for q in self.QUERIES:
-            url = f"{self.BASE}/papi/tenderned-rs-tns/v2/publicaties/rss?zoekwoorden={quote_plus(q)}"
+        for page in range(self.MAX_PAGES):
+            url = f"{self.API}?page={page}&size={self.PAGE_SIZE}"
             try:
-                resp = self.fetch(url)
+                resp = self.fetch(url, headers={"Accept": "application/json"})
             except Exception as e:
-                self.log.warning("Feed fetch failed for query %r: %s", q, e)
-                continue
+                self.log.warning("API page %d fetch failed: %s", page, e)
+                break
 
-            feed = feedparser.parse(resp.content)
-            if feed.bozo and not feed.entries:
-                self.log.warning("Empty/invalid feed for query %r", q)
-                continue
+            try:
+                data = resp.json()
+            except ValueError:
+                self.log.warning("Page %d returned non-JSON, stopping", page)
+                break
 
-            for entry in feed.entries:
-                title = (entry.get("title") or "").strip()
-                link = (entry.get("link") or "").strip()
-                summary = (entry.get("summary") or "").strip()
-                if not link or link in seen_ids:
+            content = data.get("content") if isinstance(data, dict) else None
+            items = content if isinstance(content, list) else (data if isinstance(data, list) else [])
+
+            if not items:
+                self.log.info("Page %d empty, stopping pagination", page)
+                break
+
+            for item in items:
+                pub_id = str(item.get("publicatieId") or "").strip()
+                title = (item.get("aanbestedingNaam") or "").strip()
+                description = (item.get("opdrachtBeschrijving") or "").strip()
+                link = (item.get("link") or "").strip()
+                if not pub_id or not title:
                     continue
-                if not matches_audit(title, summary):
+                if pub_id in seen_ids:
                     continue
-                seen_ids.add(link)
+                if not matches_audit(title, description):
+                    continue
+                seen_ids.add(pub_id)
+
+                if link and not link.startswith("http"):
+                    link = f"{self.BASE}{link}"
+                if not link:
+                    link = f"{self.BASE}/aankondigingen/overzicht/{pub_id}/details"
+
                 yield Opportunity(
                     source=self.name,
-                    external_id=link,
+                    external_id=pub_id,
                     title=title,
                     url=link,
-                    company=None,
+                    company=item.get("opdrachtgeverNaam") or None,
                     location="Nederland",
                     rate=None,
                     deadline=None,
-                    description=summary[:500] if summary else None,
-                    posted_at=entry.get("published"),
+                    description=description[:600] if description else None,
+                    posted_at=item.get("publicatieDatum"),
                 )

@@ -8,21 +8,17 @@ from .base import Opportunity
 from .playwright_base import PlaywrightScraper, browser_page, dismiss_cookie_banner
 
 
-class FreelanceNlScraper(PlaywrightScraper):
-    """Freelance.nl is a JavaScript SPA; we drive it with Playwright.
-
-    The platform uses SEO-slug landing pages which redirect into the actual
-    search. We try a couple of audit-related slugs and the open assignments
-    list filtered by query.
+class ZzpOpdrachtenScraper(PlaywrightScraper):
+    """ZZP-Opdrachten.nl is the public marketplace for Dutch government
+    inhuur opdrachten. The site is a JS SPA, so we render it.
     """
 
-    name = "freelance.nl"
-    BASE = "https://www.freelance.nl"
+    name = "zzp-opdrachten"
+    BASE = "https://www.zzp-opdrachten.nl"
     URLS = [
-        "https://www.freelance.nl/auditor",
-        "https://www.freelance.nl/financial-auditor",
-        "https://www.freelance.nl/it-auditor",
-        "https://www.freelance.nl/internal-auditor",
+        "https://www.zzp-opdrachten.nl/alle-vacatures/functierol/auditor/",
+        "https://www.zzp-opdrachten.nl/alle-vacatures/functierol/it-auditor/",
+        "https://www.zzp-opdrachten.nl/alle-vacatures/branche/accountancy/",
     ]
 
     def scrape(self) -> Iterable[Opportunity]:
@@ -36,15 +32,15 @@ class FreelanceNlScraper(PlaywrightScraper):
                     continue
                 dismiss_cookie_banner(page)
                 try:
-                    page.wait_for_load_state("networkidle", timeout=8000)
+                    page.wait_for_load_state("networkidle", timeout=10000)
                 except Exception:
                     pass
                 page.wait_for_timeout(1500)
 
-                anchors = page.locator("a[href*='/opdracht/'], a[href*='/opdrachten/']")
+                anchors = page.locator("a[href*='/vacature/'], a[href*='/opdracht/']")
                 count = anchors.count()
                 if count == 0:
-                    self.log.warning("No assignment links at %s", url)
+                    self.log.warning("No vacancy links at %s", url)
                     continue
 
                 for i in range(min(count, 80)):
@@ -57,7 +53,7 @@ class FreelanceNlScraper(PlaywrightScraper):
                     if not href or not text:
                         continue
                     full = urljoin(self.BASE, href)
-                    if full in seen or full.rstrip("/") in {self.BASE + "/opdrachten", self.BASE + "/opdracht"}:
+                    if full in seen:
                         continue
 
                     title = text.split("\n")[0][:200]
