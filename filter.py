@@ -52,6 +52,20 @@ CATEGORIES: dict[str, list[str]] = {
 
 NEGATIVE_KEYWORDS = ["audition"]
 
+ZZP_INTERIM_KEYWORDS = [
+    "zzp",
+    "z.z.p.",
+    "interim",
+    "freelance",
+    "freelancer",
+    "zelfstandig",
+    "zelfstandige",
+    "inhuur",
+    "detachering",
+    "tijdelijk",
+    "contract",
+]
+
 _category_patterns: dict[str, re.Pattern] = {
     cat: re.compile(
         r"(?<![a-z])(" + "|".join(re.escape(k) for k in kws) + r")(?![a-z])",
@@ -61,6 +75,10 @@ _category_patterns: dict[str, re.Pattern] = {
 }
 _neg_re = re.compile(
     r"(?<![a-z])(" + "|".join(re.escape(k) for k in NEGATIVE_KEYWORDS) + r")(?![a-z])",
+    re.IGNORECASE,
+)
+_zzp_re = re.compile(
+    r"(?<![a-z])(" + "|".join(re.escape(k) for k in ZZP_INTERIM_KEYWORDS) + r")(?![a-z])",
     re.IGNORECASE,
 )
 
@@ -83,3 +101,11 @@ def match_category(*texts: str | None) -> str | None:
 def matches_audit(*texts: str | None) -> bool:
     """Backward-compat wrapper: True if any category matches."""
     return match_category(*texts) is not None
+
+
+def is_zzp_interim(*texts: str | None) -> bool:
+    """True if the text mentions zzp/interim/freelance/etc."""
+    haystack = " \n ".join(t for t in texts if t).lower()
+    if not haystack.strip():
+        return False
+    return bool(_zzp_re.search(haystack))

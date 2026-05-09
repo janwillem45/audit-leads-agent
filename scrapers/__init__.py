@@ -3,6 +3,8 @@ from .tenderned import TenderNedScraper
 from .freelance_nl import FreelanceNlScraper
 from .striive import StriiveScraper
 from .zzp_opdrachten import ZzpOpdrachtenScraper
+from .indeed import IndeedScraper
+from .nationale_vacaturebank import NationaleVacaturebankScraper
 from .jellow import JellowScraper
 from .hoofdkraan import HoofdkraanScraper
 from .inhuurdesk import InhuurdeskScraper
@@ -13,6 +15,8 @@ ALL_SCRAPERS: list[type[Scraper]] = [
     FreelanceNlScraper,
     StriiveScraper,
     ZzpOpdrachtenScraper,
+    IndeedScraper,
+    NationaleVacaturebankScraper,
     JellowScraper,
     HoofdkraanScraper,
     InhuurdeskScraper,
@@ -27,6 +31,8 @@ __all__ = [
     "FreelanceNlScraper",
     "StriiveScraper",
     "ZzpOpdrachtenScraper",
+    "IndeedScraper",
+    "NationaleVacaturebankScraper",
     "JellowScraper",
     "HoofdkraanScraper",
     "InhuurdeskScraper",
