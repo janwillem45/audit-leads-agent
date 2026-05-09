@@ -25,6 +25,7 @@ class Opportunity:
     external_id: str
     title: str
     url: str
+    category: str = "Audit"
     company: str | None = None
     location: str | None = None
     rate: str | None = None

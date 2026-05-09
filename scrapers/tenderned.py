@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from filter import matches_audit
+from filter import match_category
 from .base import Opportunity, Scraper
 
 
@@ -71,7 +71,8 @@ class TenderNedScraper(Scraper):
                     continue
                 if pub_id in seen_ids:
                     continue
-                if not matches_audit(title, description):
+                category = match_category(title, description)
+                if not category:
                     continue
                 seen_ids.add(pub_id)
                 total_matched += 1
@@ -81,6 +82,7 @@ class TenderNedScraper(Scraper):
                     external_id=pub_id,
                     title=title,
                     url=self._extract_link(item, pub_id, self.BASE),
+                    category=category,
                     company=str(item.get("opdrachtgeverNaam") or "") or None,
                     location="Nederland",
                     rate=None,

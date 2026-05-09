@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Iterable
 from urllib.parse import urljoin
 
-from filter import matches_audit
+from filter import match_category
 from .base import Opportunity
 from .playwright_base import PlaywrightScraper, autoscroll, browser_page, dismiss_cookie_banner
 
@@ -61,7 +61,8 @@ class ZzpOpdrachtenScraper(PlaywrightScraper):
 
                     title = text.split("\n")[0][:200]
                     snippet = text[:500]
-                    if not matches_audit(title, snippet):
+                    category = match_category(title, snippet)
+                    if not category:
                         continue
 
                     seen.add(full)
@@ -70,6 +71,7 @@ class ZzpOpdrachtenScraper(PlaywrightScraper):
                         external_id=full,
                         title=title,
                         url=full,
+                        category=category,
                         description=snippet,
                     )
                 self.log.info("%s: %d new audit-matching opportunities", url, len(seen) - yielded_before)
