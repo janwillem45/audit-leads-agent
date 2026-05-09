@@ -30,19 +30,25 @@ gh repo create audit-leads-agent --private --source=. --remote=origin --push
 
 ### 2. GitHub Secrets
 
-In de repo → **Settings → Secrets and variables → Actions → New repository secret**:
+In de repo → **Settings → Secrets and variables → Actions → New repository secret**.
+
+**Eerst Gmail App Password aanmaken:**
+1. Zorg dat 2-staps-verificatie aanstaat op je Google-account.
+2. Ga naar https://myaccount.google.com/apppasswords.
+3. Maak een nieuw app password aan (naam bv. "Audit Leads Agent"). Je krijgt een 16-tekens code — kopieer die zonder spaties.
+
+**Voer dan deze 6 secrets in:**
 
 | Secret | Waarde |
 |---|---|
 | `OMNIFOCUS_MAILDROP` | `janwillemwalravens.rg8gr@sync.omnigroup.com` |
-| `SMTP_HOST` | bv. `smtp.gmail.com` of jouw mailserver |
-| `SMTP_PORT` | `587` (STARTTLS) of `465` (SSL) |
-| `SMTP_USER` | het mailaccount waarmee je inlogt |
-| `SMTP_PASS` | wachtwoord of app-password |
-| `SMTP_FROM` | afzenderadres (bv. `janwillem.walravens@wi-solutions.nl`) |
-| `EMAIL_CC` | *(optioneel)* bcc/cc adres voor archief |
+| `SMTP_HOST` | `smtp.gmail.com` |
+| `SMTP_PORT` | `587` |
+| `SMTP_USER` | `janwillem.walravens@gmail.com` |
+| `SMTP_PASS` | het 16-tekens App Password (geen spaties) |
+| `SMTP_FROM` | `janwillem.walravens@gmail.com` |
 
-**Gmail tip:** zet 2FA aan en gebruik een [App Password](https://myaccount.google.com/apppasswords) als `SMTP_PASS`.
+`EMAIL_CC` is optioneel; laat 'm leeg als je geen archiefkopie wil.
 
 ### 3. Workflow aanzetten
 
