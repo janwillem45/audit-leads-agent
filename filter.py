@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 
 KEYWORDS = [
+    # audit-rollen
     "audit",
     "auditor",
     "it-audit",
@@ -30,6 +31,19 @@ KEYWORDS = [
     "compliance audit",
     "risk audit",
     "operational audit",
+    # kwaliteitsmanagement
+    "kwaliteitsmanager",
+    "kwaliteitsmanagement",
+    "quality manager",
+    # risicomanagement
+    "risicomanager",
+    "risicomanagement",
+    "risk manager",
+    # projectbeheersing / project control
+    "manager projectbeheersing",
+    "projectbeheersing",
+    "project control",
+    "project controller",
 ]
 
 NEGATIVE_KEYWORDS = [
