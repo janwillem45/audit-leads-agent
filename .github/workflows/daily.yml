@@ -47,8 +47,12 @@ jobs:
           SMTP_FROM: ${{ secrets.SMTP_FROM }}
           EMAIL_CC: ${{ secrets.EMAIL_CC }}
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
-            python run.py --dry-run --force --debug
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            if [ "${{ inputs.dry_run }}" = "true" ]; then
+              python run.py --dry-run --force --debug
+            else
+              python run.py --force
+            fi
           else
             python run.py
           fi
