@@ -81,11 +81,6 @@ def main() -> int:
     nl_now = datetime.now(NL_TZ)
     log.info("Local time (Europe/Amsterdam): %s", nl_now.isoformat(timespec="minutes"))
 
-    if not args.force and not args.dry_run:
-        if nl_now.hour != 23:
-            log.info("Local hour %d != 23 — exiting (use --force to override)", nl_now.hour)
-            return 0
-
     state = prune_state(load_state())
     log.info("Loaded state with %d previously-seen items", len(state))
 

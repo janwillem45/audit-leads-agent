@@ -2,10 +2,14 @@ name: Daily audit-leads scan
 
 on:
   schedule:
-    # GitHub cron is UTC. We register two times so that exactly one fires
-    # at 23:00 Europe/Amsterdam local time year-round; run.py guards on local hour.
-    - cron: '0 22 * * *'   # 23:00 CET (winter)
-    - cron: '0 21 * * *'   # 23:00 CEST (summer)
+    # GitHub cron is UTC. We register two times to cover both DST regimes:
+    #   - 21:00 UTC = 23:00 CEST (summer) / 22:00 CET (winter)
+    #   - 22:00 UTC = 00:00 CEST (summer) / 23:00 CET (winter)
+    # Both fire every day; state/seen.json dedup makes sure leads are
+    # sent only once per day. We don't gate on local hour because GitHub
+    # frequently delays scheduled runs by 30-90 minutes.
+    - cron: '0 21 * * *'
+    - cron: '0 22 * * *'
   workflow_dispatch:
     inputs:
       dry_run:
