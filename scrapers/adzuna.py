@@ -59,6 +59,10 @@ class AdzunaScraper(Scraper):
                 description = str(job.get("description") or "")
                 contract_type = str(job.get("contract_type") or "")
 
+                # "Night auditor" = hotelreceptie, geen audit
+                if "night audit" in title.lower():
+                    continue
+
                 category = match_category(title, description)
                 if not category:
                     continue
