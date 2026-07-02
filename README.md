@@ -6,16 +6,40 @@ Scant elke avond om **23:00 Europe/Amsterdam** een set Nederlandse opdrachten- e
 
 | Bron | Type | Status |
 |---|---|---|
-| TenderNed | JSON API (officieel) | ✅ Stabiel — overheidsaanbestedingen |
-| Freelance.nl | Playwright (SPA) | ⚠️ Best-effort — kan tuning nodig hebben |
-| Striive | Playwright (SPA) | ⚠️ Best-effort — kan tuning nodig hebben |
-| ZZP-Opdrachten.nl | Playwright (SPA) | ⚠️ Best-effort — overheids-zzp marktplaats |
-| Hoofdkraan | Disabled | ❌ Anti-bot blokkeert ons |
+| TenderNed | JSON API (officieel) | ✅ Stabiel — overheidsaanbestedingen/tenders |
+| Freep.nl | HTML (server-rendered) | ✅ Overheids-inhuur, per definitie interim |
+| Opdracht Overheid | Playwright (SPA) | ⚠️ Best-effort — overheids-inhuur marktplaats |
+| Freelance.nl | Playwright (SPA) | ✅ Werkt |
+| Nationale Vacaturebank | Playwright (SPA) | ✅ Werkt (zzp/freelance filter) |
+| Striive | Playwright (SPA) | ⚠️ Vindt nog niets — tuning nodig |
+| ZZP-Opdrachten.nl | Playwright (SPA) | ⚠️ Vindt nog niets — tuning nodig |
+| Indeed.nl | Playwright (SPA) | ⚠️ Geblokkeerd op GitHub; kans op succes vanaf Mac mini |
+| Hoofdkraan | Playwright (SPA) | ⚠️ Geblokkeerd op GitHub; kans op succes vanaf Mac mini |
+| Planet Interim | Playwright (SPA) | ⚠️ Geblokkeerd op GitHub; kans op succes vanaf Mac mini |
 | Jellow | Disabled | ❌ Vereist login |
 | Inhuurdesk | Disabled | ❌ Geen publieke listings |
-| Planet Interim | Disabled | ❌ Anti-bot blokkeert ons |
 
-**TenderNed** is solide en geeft je dagelijks de overheids-audits (IT-audit, financial audit, ISO, AVG). De drie Playwright-bronnen draaien in een echte headless Chromium en kunnen, afhankelijk van DOM-wijzigingen, selector-tuning nodig hebben. De disabled bronnen kun je later inschakelen als we een strategie hebben (login/stealth-browser).
+Alle leads worden gefilterd op de categorieën in `filter.py` (Audit / Kwaliteitsmanagement / Risicomanagement / Projectbeheersing) en, voor vacaturesites, op zzp/interim-signaalwoorden.
+
+## Draaien op een Mac mini (aanbevolen)
+
+Lokaal draaien heeft twee voordelen boven GitHub Actions: exacte timing (23:00, geen cron-vertraging) en een residentieel IP-adres waardoor sites als Indeed/Hoofdkraan je niet als datacenter-bot blokkeren.
+
+```bash
+# Eenmalig op de Mac mini:
+git clone https://github.com/janwillem45/audit-leads-agent.git ~/audit-leads-agent
+cd ~/audit-leads-agent
+./install_macmini.sh
+# vul daarna ~/audit-leads-agent/.env in (SMTP_PASS = Gmail App Password)
+```
+
+Het installscript zet een Python-venv op, installeert Playwright Chromium en registreert een launchd-job die `run_local.sh` elke dag om 23:00 draait. Die pull't eerst de repo (wijzigingen komen automatisch mee), draait de scan, en pusht `state/seen.json` terug naar GitHub zodat de dedup-historie gedeeld blijft met de GitHub Actions-fallback.
+
+**Belangrijk:** zorg dat de mini niet slaapt om 23:00 — zet in Systeeminstellingen → Energiestand "Voorkom automatisch sluimeren" aan, of draai `sudo pmset -a sleep 0`. Als de mini sliep, voert launchd de gemiste run uit zodra hij wakker wordt.
+
+Logs staan in `~/audit-leads-agent/logs/run-YYYYMMDD.log`.
+
+De GitHub Actions-workflow blijft als vangnet bestaan: mist de mini een avond, dan pakt de cloud-run het later alsnog op (met gedeelde dedup dus zonder dubbele mails).
 
 ## Setup
 

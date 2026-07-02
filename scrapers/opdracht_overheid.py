@@ -8,26 +8,23 @@ from .base import Opportunity
 from .playwright_base import PlaywrightScraper, autoscroll, browser_page, dismiss_cookie_banner
 
 
-class PlanetInterimScraper(PlaywrightScraper):
-    """Planet Interim — interim/zzp opdrachten.
+class OpdrachtOverheidScraper(PlaywrightScraper):
+    """OpdrachtOverheid.nl — marktplaats voor interim/zzp bij de overheid.
 
-    Blokkeerde requests vanaf GitHub-runners (403). Heractiveerd met
-    Playwright voor de Mac mini-run vanaf een residentieel IP.
+    De homepage IS de listing (SPA met filters). Alles hier is inhuur,
+    dus geen extra zzp-filter nodig.
     """
 
-    name = "planet-interim"
-    BASE = "https://www.planetinterim.nl"
-    SEARCH_URLS = [
-        "https://www.planetinterim.nl/opdrachten?q=audit",
-        "https://www.planetinterim.nl/opdrachten?q=auditor",
-        "https://www.planetinterim.nl/opdrachten?q=kwaliteitsmanager",
-        "https://www.planetinterim.nl/opdrachten?q=risicomanager",
+    name = "opdrachtoverheid"
+    BASE = "https://www.opdrachtoverheid.nl"
+    URLS = [
+        "https://www.opdrachtoverheid.nl/",
     ]
 
     def scrape(self) -> Iterable[Opportunity]:
         seen: set[str] = set()
         with browser_page() as page:
-            for url in self.SEARCH_URLS:
+            for url in self.URLS:
                 try:
                     page.goto(url, wait_until="domcontentloaded", timeout=30000)
                 except Exception as e:
@@ -35,20 +32,22 @@ class PlanetInterimScraper(PlaywrightScraper):
                     continue
                 dismiss_cookie_banner(page)
                 try:
-                    page.wait_for_load_state("networkidle", timeout=8000)
+                    page.wait_for_load_state("networkidle", timeout=10000)
                 except Exception:
                     pass
                 page.wait_for_timeout(1500)
-                autoscroll(page)
+                autoscroll(page, steps=10)
 
-                anchors = page.locator("a[href*='/opdracht'], a[href*='/vacature']")
+                anchors = page.locator(
+                    "a[href*='/opdracht/'], a[href*='/inhuuropdracht'], a[href*='/vacature/']"
+                )
                 count = anchors.count()
                 self.log.info("%s: %d opdracht link(s) found", url, count)
                 if count == 0:
                     continue
 
                 yielded_before = len(seen)
-                for i in range(min(count, 60)):
+                for i in range(min(count, 120)):
                     a = anchors.nth(i)
                     try:
                         href = a.get_attribute("href") or ""
@@ -58,7 +57,7 @@ class PlanetInterimScraper(PlaywrightScraper):
                     if not href or not text:
                         continue
                     full = urljoin(self.BASE, href)
-                    if full in seen or full.rstrip("/").endswith("/opdrachten"):
+                    if full in seen:
                         continue
 
                     title = text.split("\n")[0][:200]
@@ -74,6 +73,7 @@ class PlanetInterimScraper(PlaywrightScraper):
                         title=title,
                         url=full,
                         category=category,
+                        location="Nederland",
                         description=snippet,
                     )
                 self.log.info("%s: %d new matching leads", url, len(seen) - yielded_before)
