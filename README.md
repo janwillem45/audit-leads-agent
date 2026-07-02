@@ -6,18 +6,25 @@ Scant elke avond om **23:00 Europe/Amsterdam** een set Nederlandse opdrachten- e
 
 | Bron | Type | Status |
 |---|---|---|
-| TenderNed | JSON API (officieel) | ✅ Stabiel — overheidsaanbestedingen/tenders |
+| TenderNed | JSON API (officieel) | ✅ Stabiel — NL overheidsaanbestedingen/tenders |
+| TED (EU) | JSON API (officieel) | ✅ Stabiel — Europese tenders, NL-gefilterd |
+| Adzuna | JSON API (officieel) | ✅ Aggregator; vereist gratis API-key in .env |
 | Freep.nl | HTML (server-rendered) | ✅ Overheids-inhuur, per definitie interim |
-| Opdracht Overheid | Playwright (SPA) | ⚠️ Best-effort — overheids-inhuur marktplaats |
+| Auditworks | HTML (server-rendered) | ✅ Niche: interim audit (zzp-filter actief) |
+| FellowField | HTML (server-rendered) | ✅ Niche: interim finance/risk/audit |
 | Freelance.nl | Playwright (SPA) | ✅ Werkt |
 | Nationale Vacaturebank | Playwright (SPA) | ✅ Werkt (zzp/freelance filter) |
+| Opdracht Overheid | Playwright (SPA) | ⚠️ Best-effort |
 | Striive | Playwright (SPA) | ⚠️ Vindt nog niets — tuning nodig |
 | ZZP-Opdrachten.nl | Playwright (SPA) | ⚠️ Vindt nog niets — tuning nodig |
-| Indeed.nl | Playwright (SPA) | ⚠️ Geblokkeerd op GitHub; kans op succes vanaf Mac mini |
-| Hoofdkraan | Playwright (SPA) | ⚠️ Geblokkeerd op GitHub; kans op succes vanaf Mac mini |
-| Planet Interim | Playwright (SPA) | ⚠️ Geblokkeerd op GitHub; kans op succes vanaf Mac mini |
+| Indeed.nl | Playwright (SPA) | ⚠️ Anti-bot; kans op succes vanaf Mac mini |
+| Hoofdkraan | Playwright (SPA) | ⚠️ Anti-bot; kans op succes vanaf Mac mini |
+| Planet Interim | Playwright (SPA) | ⚠️ Anti-bot; kans op succes vanaf Mac mini |
+| Circle8 | Playwright (SPA) | ⚠️ Anti-bot; kans op succes vanaf Mac mini |
+| Werkzoeken.nl | Playwright (SPA) | ⚠️ Anti-bot; kans op succes vanaf Mac mini |
 | Jellow | Disabled | ❌ Vereist login |
 | Inhuurdesk | Disabled | ❌ Geen publieke listings |
+| Aanbestedingenkalender | Niet opgenomen | ❌ Onbereikbaar + overlapt TenderNed |
 
 Alle leads worden gefilterd op de categorieën in `filter.py` (Audit / Kwaliteitsmanagement / Risicomanagement / Projectbeheersing) en, voor vacaturesites, op zzp/interim-signaalwoorden.
 
