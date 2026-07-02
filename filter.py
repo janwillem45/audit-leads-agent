@@ -2,55 +2,91 @@ from __future__ import annotations
 
 import re
 
-CATEGORIES: dict[str, list[str]] = {
-    "Audit": [
-        "audit",
-        "auditor",
-        "it-audit",
-        "it audit",
-        "internal audit",
-        "internal auditor",
-        "interne audit",
-        "interne auditor",
-        "financial audit",
-        "financiële audit",
-        "financiele audit",
-        "kwaliteitsaudit",
-        "iso audit",
-        "iso 27001",
-        "iso 9001",
-        "soc 1",
-        "soc 2",
-        "soc-1",
-        "soc-2",
-        "sox",
-        "avg-audit",
-        "avg audit",
-        "gdpr audit",
-        "security audit",
-        "compliance audit",
-        "risk audit",
-        "operational audit",
-    ],
-    "Kwaliteitsmanagement": [
-        "kwaliteitsmanager",
-        "kwaliteitsmanagement",
-        "quality manager",
-    ],
-    "Risicomanagement": [
-        "risicomanager",
-        "risicomanagement",
-        "risk manager",
-    ],
-    "Projectbeheersing": [
-        "manager projectbeheersing",
-        "projectbeheersing",
-        "project control",
-        "project controller",
-    ],
+# Trefwoorden zijn regex-fragmenten met alleen een woordgrens VOORAAN,
+# zodat Nederlandse samenstellingen ook matchen: "audit" vangt
+# auditdiensten/auditor/audits, "accountant" vangt accountantscontrole.
+#
+# Twee niveaus per categorie:
+#   strong — matcht in titel ÉN omschrijving (specifiek genoeg)
+#   weak   — matcht alleen in de titel (te generiek voor omschrijvingen;
+#            vrijwel elke aanbesteding noemt ergens "kwaliteitsborging")
+CATEGORIES: dict[str, dict[str, list[str]]] = {
+    "Audit": {
+        "strong": [
+            r"audit(?!i[eo])",       # audit, auditor, auditdiensten — niet auditie/audition
+            r"accountant",            # accountantsdiensten, accountantscontrole
+            r"interne controle",
+            r"verbijzonderde interne controle",
+            r"ao/ic",
+            r"rechtmatigheid",        # rechtmatigheidscontrole/-verantwoording
+            r"jaarrekeningcontrole",
+            r"controle van de jaarrekening",
+            r"isae ?3402",
+            r"iso ?27001",
+            r"iso ?9001",
+            r"soc ?[12]\b",
+            r"sox\b",
+            r"ensia",                 # gemeentelijke IT-audits
+            r"digid[ -]?(assessment|audit)",
+            r"penetratietest",
+            r"pentest",
+            r"avg[ -]audit",
+            r"gdpr[ -]audit",
+        ],
+        "weak": [
+            r"assurance",
+            r"certificering",
+            r"certificatie",
+            r"compliance",
+            r"informatiebeveiliging",
+            r"baseline informatiebeveiliging",
+        ],
+    },
+    "Kwaliteitsmanagement": {
+        "strong": [
+            r"kwaliteitsmanag",       # kwaliteitsmanager, kwaliteitsmanagement
+            r"kwaliteitscoördinator",
+            r"kwaliteitsadviseur",
+            r"quality manag",
+        ],
+        "weak": [
+            r"kwaliteitsborging",
+            r"kwaliteitszorg",
+            r"kwaliteitstoets",
+            r"kwaliteitssysteem",
+        ],
+    },
+    "Risicomanagement": {
+        "strong": [
+            r"risicomanag",           # risicomanager, risicomanagement
+            r"risicoadviseur",
+            r"risk manag",
+        ],
+        "weak": [
+            r"risicobeheersing",
+            r"risicoanalyse",
+            r"risico[- ]inventarisatie",
+        ],
+    },
+    "Projectbeheersing": {
+        "strong": [
+            r"projectbeheersing",
+            r"manager projectbeheersing",
+            r"project ?control",      # project control, projectcontroller
+        ],
+        "weak": [],
+    },
 }
 
-NEGATIVE_KEYWORDS = ["audition"]
+
+def _compile(fragments: list[str]) -> re.Pattern | None:
+    if not fragments:
+        return None
+    return re.compile(r"(?<![a-z])(" + "|".join(fragments) + r")", re.IGNORECASE)
+
+
+_strong_patterns = {cat: _compile(tiers["strong"]) for cat, tiers in CATEGORIES.items()}
+_weak_patterns = {cat: _compile(tiers["weak"]) for cat, tiers in CATEGORIES.items()}
 
 ZZP_INTERIM_KEYWORDS = [
     "zzp",
@@ -66,41 +102,35 @@ ZZP_INTERIM_KEYWORDS = [
     "contract",
 ]
 
-_category_patterns: dict[str, re.Pattern] = {
-    cat: re.compile(
-        r"(?<![a-z])(" + "|".join(re.escape(k) for k in kws) + r")(?![a-z])",
-        re.IGNORECASE,
-    )
-    for cat, kws in CATEGORIES.items()
-}
-_neg_re = re.compile(
-    r"(?<![a-z])(" + "|".join(re.escape(k) for k in NEGATIVE_KEYWORDS) + r")(?![a-z])",
-    re.IGNORECASE,
-)
 _zzp_re = re.compile(
     r"(?<![a-z])(" + "|".join(re.escape(k) for k in ZZP_INTERIM_KEYWORDS) + r")(?![a-z])",
     re.IGNORECASE,
 )
 
 
-def match_category(*texts: str | None) -> str | None:
-    """Return the first matching category for the given text, or None."""
-    haystack = " \n ".join(t for t in texts if t).lower()
-    if not haystack.strip():
+def match_category(title: str | None, description: str | None = None) -> str | None:
+    """Return the matching category, or None.
+
+    Strong keywords match against title + description; weak keywords
+    only against the title.
+    """
+    title_l = (title or "").lower()
+    full_l = f"{title_l} \n {(description or '').lower()}"
+    if not full_l.strip():
         return None
-    for cat, pat in _category_patterns.items():
-        match = pat.search(haystack)
-        if not match:
-            continue
-        if cat == "Audit" and _neg_re.search(haystack) and not pat.search(haystack):
-            continue
-        return cat
+    for cat in CATEGORIES:
+        strong = _strong_patterns[cat]
+        if strong and strong.search(full_l):
+            return cat
+        weak = _weak_patterns[cat]
+        if weak and title_l and weak.search(title_l):
+            return cat
     return None
 
 
-def matches_audit(*texts: str | None) -> bool:
+def matches_audit(title: str | None, description: str | None = None) -> bool:
     """Backward-compat wrapper: True if any category matches."""
-    return match_category(*texts) is not None
+    return match_category(title, description) is not None
 
 
 def is_zzp_interim(*texts: str | None) -> bool:
