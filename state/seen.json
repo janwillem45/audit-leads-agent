@@ -175,7 +175,6 @@
   "nationalevacaturebank::https://www.nationalevacaturebank.nl/vacature/089bb14c-9f0e-478b-9224-4707b9eca38e/zzp-boekhouder-accountant": "2026-08-21T21:06:10.714536+00:00",
   "nationalevacaturebank::https://www.nationalevacaturebank.nl/vacature/202a8862-1838-4f44-9be0-26edd0055576/interim-senior-assistent-accountant-audit-controleleider": "2026-08-17T21:06:07.190366+00:00",
   "nationalevacaturebank::https://www.nationalevacaturebank.nl/vacature/70535aed-cfbb-43ee-904f-01da58607af9/zzp-boekhouder-accountant": "2026-07-31T21:06:11.963787+00:00",
-  "nationalevacaturebank::https://www.nationalevacaturebank.nl/vacature/fe3cc28d-73d0-4441-8392-a974771c237b/zzp-boekhouder-accountant": "2026-07-19T21:06:09.275459+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/abg-organisatie/senior-procesadviseur-belastingen-en-rechtmatigheid/244D7467-D8E2-42BA-9C25-17FED013D7E9": "2026-08-10T21:05:58.830107+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/alliander/manager-projectbeheersing-d/12D75133-8B5C-4125-9AF9-35D6702E6877": "2026-07-23T21:06:15.283321+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/belastingdienst-non-ict/specialist-proces-en-risicomanagement/D8525387-434F-4B45-BABC-D4D78B478366": "2026-08-12T21:06:10.069442+00:00",
@@ -246,9 +245,7 @@
   "ted.europa.eu::633458-2026": "2026-09-15T21:00:41.838938+00:00",
   "ted.europa.eu::634939-2026": "2026-09-15T21:00:41.838938+00:00",
   "ted.europa.eu::634994-2026": "2026-09-15T21:00:41.838938+00:00",
-  "tenderned::433780": "2026-07-19T21:06:09.275459+00:00",
-  "tenderned::433784": "2026-07-19T21:06:09.275459+00:00",
-  "tenderned::433844": "2026-07-19T21:06:09.275459+00:00",
+  "ted.europa.eu::643202-2026": "2026-09-18T21:00:34.347855+00:00",
   "tenderned::434250": "2026-07-22T21:06:20.211201+00:00",
   "tenderned::434252": "2026-07-21T21:06:03.698447+00:00",
   "tenderned::434350": "2026-07-23T21:06:15.283321+00:00",
@@ -332,5 +329,7 @@
   "tenderned::439976": "2026-09-15T21:00:41.838938+00:00",
   "tenderned::440007": "2026-09-15T21:00:41.838938+00:00",
   "tenderned::440051": "2026-09-16T21:00:43.246643+00:00",
-  "tenderned::440233": "2026-09-17T21:00:43.191021+00:00"
+  "tenderned::440233": "2026-09-17T21:00:43.191021+00:00",
+  "tenderned::440342": "2026-09-18T21:00:34.347855+00:00",
+  "tenderned::440355": "2026-09-18T21:00:34.347855+00:00"
 }
