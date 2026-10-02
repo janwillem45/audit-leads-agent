@@ -127,6 +127,7 @@
   "freep.nl::https://www.freep.nl/opdracht/senior-financieel-adviseur-60": "2026-09-21T21:00:31.812664+00:00",
   "freep.nl::https://www.freep.nl/opdracht/senior-financieel-beheerder-1": "2026-09-21T21:00:31.812664+00:00",
   "freep.nl::https://www.freep.nl/opdracht/senior-it-compliance-officer-2": "2026-09-28T21:00:35.151334+00:00",
+  "freep.nl::https://www.freep.nl/opdracht/senior-it-compliance-officer-3": "2026-10-02T21:00:33.515417+00:00",
   "freep.nl::https://www.freep.nl/opdracht/senior-kna-archeoloog-2": "2026-09-09T21:00:32.144333+00:00",
   "freep.nl::https://www.freep.nl/opdracht/senior-medewerker-financieel-beheer-2x-066fte-november-2026": "2026-09-30T21:00:34.184671+00:00",
   "freep.nl::https://www.freep.nl/opdracht/senior-salarisadministrateur-21": "2026-08-27T21:00:33.521618+00:00",
@@ -220,9 +221,8 @@
   "ted.europa.eu::665667-2026": "2026-09-28T21:00:35.151334+00:00",
   "ted.europa.eu::671049-2026": "2026-09-30T21:00:34.184671+00:00",
   "ted.europa.eu::676034-2026": "2026-10-01T21:00:37.831658+00:00",
-  "tenderned::435280": "2026-08-02T21:06:26.434254+00:00",
-  "tenderned::435287": "2026-08-02T21:06:26.434254+00:00",
-  "tenderned::435294": "2026-08-02T21:06:26.434254+00:00",
+  "ted.europa.eu::678129-2026": "2026-10-02T21:00:33.515417+00:00",
+  "ted.europa.eu::678726-2026": "2026-10-02T21:00:33.515417+00:00",
   "tenderned::435450": "2026-08-05T21:06:04.718501+00:00",
   "tenderned::435475": "2026-08-05T21:06:04.718501+00:00",
   "tenderned::435514": "2026-08-05T21:06:04.718501+00:00",
@@ -302,5 +302,6 @@
   "tenderned::442267": "2026-09-30T21:00:34.184671+00:00",
   "tenderned::442405": "2026-10-01T21:00:37.831658+00:00",
   "tenderned::442498": "2026-10-01T21:00:37.831658+00:00",
+  "tenderned::442570": "2026-10-02T21:00:33.515417+00:00",
   "tenderned::442575": "2026-10-01T21:00:37.831658+00:00"
 }
