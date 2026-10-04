@@ -1,6 +1,14 @@
 # Audit Leads Agent
 
-Scant elke avond om **23:00 Europe/Amsterdam** een set Nederlandse opdrachten- en aanbestedingenplatformen op audit-gerelateerde freelance opdrachten en stuurt elke nieuwe lead als losse mail naar OmniFocus Mail Drop, zodat ze als taak in je inbox landen.
+Scant elke avond om **23:00 Europe/Amsterdam** een set Nederlandse opdrachten- en aanbestedingenplatformen op opdrachten die bij Jan Willem passen en zet elke nieuwe lead als herinnering in **Apple Herinneringen, lijst Acquisitie** (sinds 4 oktober 2026; daarvoor OmniFocus Mail Drop).
+
+## Herinneringen in plaats van OmniFocus (sinds 4 oktober 2026)
+
+`notify.py` roept `herinnering_bridge.py` aan met de systeem-Python (`/Library/Frameworks/Python.framework/Versions/3.14/bin/python3.14`), dezelfde interpreter als de andere achtergrondtaken op de Mac mini. Die gebruikt `herinneringen_helper.py` uit `~/Desktop/Claude werkbestanden/Automatiseringen` (pad aanpasbaar met `AUTOMATISERINGEN_DIR`). Elke lead wordt `Opdracht: <titel> (<opdrachtgever>)` in de lijst Acquisitie, zonder losse melding (de ochtendpush meldt ze al), met de sluitdatum als vervaldatum of anders over 10 dagen. De dagelijkse schoonmaak in Automatiseringen ruimt verlopen opdrachten op. Dezelfde naamgeving als de opdrachtenradar, dus TenderNed-opdrachten komen niet dubbel binnen.
+
+Lukt Herinneringen niet (geen Mac, geen toestemming, helper ontbreekt), dan valt het script terug op een bundelmail naar `EMAIL_TO` (standaard je eigen adres). `OMNIFOCUS_MAILDROP` wordt niet meer gebruikt.
+
+De filter is tegelijk strakker gezet (`filter.py`): generieke termen als 'audit' en 'kwaliteitsborging' tellen alleen nog in de titel, accountantsdiensten, salarisadministratie, pentests en dergelijke vallen af via een uitsluitlijst, en NIS2 is een eigen categorie.
 
 ## Bronnen
 
