@@ -24,6 +24,8 @@
   "freelance.nl::https://www.freelance.nl/opdracht/1187417-pharma-gmp-assessment-lead-auditor": "2026-10-13T21:06:02.238520+00:00",
   "freelance.nl::https://www.freelance.nl/opdracht/1187707-projectcontroller-ruimtelijk-domein": "2026-10-15T21:06:09.748371+00:00",
   "freelance.nl::https://www.freelance.nl/opdracht/1187754-interim-auditor-sisa-regelingen": "2026-10-15T21:06:09.748371+00:00",
+  "freelance.nl::https://www.freelance.nl/opdracht/1188028-interim-auditor-met-gemeente-ervaring": "2026-10-16T21:06:17.872919+00:00",
+  "freelance.nl::https://www.freelance.nl/opdracht/1188030-project-controller-ontwikkeling": "2026-10-16T21:06:17.872919+00:00",
   "freep.nl::https://www.freep.nl/opdracht/administratief-medewerker-leerplicht-1": "2026-08-19T21:07:50.908493+00:00",
   "freep.nl::https://www.freep.nl/opdracht/adviseur-financien-interne-controle": "2026-09-26T21:00:30.946180+00:00",
   "freep.nl::https://www.freep.nl/opdracht/adviseur-informatiebeveiliging-privacy-ibp": "2026-09-07T21:00:32.169087+00:00",
@@ -195,11 +197,13 @@
   "freep.nl::https://www.freep.nl/opdracht/vastgoedmanager-12": "2026-09-09T21:00:32.144333+00:00",
   "nationalevacaturebank::https://www.nationalevacaturebank.nl/vacature/089bb14c-9f0e-478b-9224-4707b9eca38e/zzp-boekhouder-accountant": "2026-08-21T21:06:10.714536+00:00",
   "nationalevacaturebank::https://www.nationalevacaturebank.nl/vacature/202a8862-1838-4f44-9be0-26edd0055576/interim-senior-assistent-accountant-audit-controleleider": "2026-08-17T21:06:07.190366+00:00",
+  "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/airbus/quality-control-quality-assurance-engineer/73341609-BCAA-4B54-8ECB-53243D077DE8": "2026-10-16T21:06:17.872919+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/enexis/security-engineer-cybersecurity-nis2-16416/3FAA1278-3978-44F3-BBAB-790CB837FD1C": "2026-10-09T21:06:14.086772+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/gasunie/project-control-lead-wnl-jp3361/5A47B20C-A0BF-4B01-B830-3690D6318B4E": "2026-10-08T21:06:08.936514+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/hoogheemraadschap-de-stichtse-rijnlanden-hdsr/manager-projectbeheersing/21CAB3B3-E302-463B-B88E-BDD0B35A8314": "2026-10-06T21:06:15.885428+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/ministerie-van-defensie/risicomanager---pmo-projectmanagementondersteuner/E35C1317-5083-4418-A65E-A063201D6779": "2026-08-19T21:07:50.908493+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/ministerie-van-defensie/senior-risk-management-consultant/81580189-DE22-4406-8E30-EBAB9C924F4A": "2026-10-13T21:06:02.238520+00:00",
+  "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/rijksvastgoedbedrijf-rvb/manager-projectbeheersing-waterbouw-marinehaven/56949F17-D4ED-42ED-9849-A322483486C9": "2026-10-16T21:06:17.872919+00:00",
   "ted.europa.eu::567417-2026": "2026-08-17T21:06:07.190366+00:00",
   "ted.europa.eu::570766-2026": "2026-08-18T21:06:07.752469+00:00",
   "ted.europa.eu::572766-2026": "2026-08-19T21:07:50.908493+00:00",
@@ -241,7 +245,6 @@
   "ted.europa.eu::678726-2026": "2026-10-02T21:00:33.515417+00:00",
   "ted.europa.eu::700535-2026": "2026-10-12T21:05:56.722330+00:00",
   "ted.europa.eu::711010-2026": "2026-10-14T21:06:19.020272+00:00",
-  "tenderned::436293": "2026-08-16T21:06:30.219608+00:00",
   "tenderned::436418": "2026-08-17T21:06:07.190366+00:00",
   "tenderned::436441": "2026-08-19T21:07:50.908493+00:00",
   "tenderned::436457": "2026-08-19T21:07:50.908493+00:00",
@@ -312,5 +315,6 @@
   "tenderned::442678": "2026-10-04T18:43:52.454254+00:00",
   "tenderned::442827": "2026-10-04T18:43:52.454254+00:00",
   "tenderned::443081": "2026-10-07T21:06:26.692714+00:00",
-  "tenderned::444346": "2026-10-14T21:06:19.020272+00:00"
+  "tenderned::444346": "2026-10-14T21:06:19.020272+00:00",
+  "tenderned::444615": "2026-10-16T21:06:17.872919+00:00"
 }
