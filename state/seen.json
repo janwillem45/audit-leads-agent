@@ -180,10 +180,10 @@
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/airbus/quality-control-quality-assurance-engineer/73341609-BCAA-4B54-8ECB-53243D077DE8": "2026-10-16T21:06:17.872919+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/enexis/security-engineer-cybersecurity-nis2-16416/3FAA1278-3978-44F3-BBAB-790CB837FD1C": "2026-10-09T21:06:14.086772+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/gasunie/project-control-lead-wnl-jp3361/5A47B20C-A0BF-4B01-B830-3690D6318B4E": "2026-10-08T21:06:08.936514+00:00",
+  "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/gemeente-amstelveen/kwaliteitsadviseur-complexe-casuistiek-gedragswetenschapper-jeugd-jo26-1687/E58C718E-93B0-4DFF-80A7-EA55005DD4D5": "2026-10-20T21:06:05.579843+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/hoogheemraadschap-de-stichtse-rijnlanden-hdsr/manager-projectbeheersing/21CAB3B3-E302-463B-B88E-BDD0B35A8314": "2026-10-06T21:06:15.885428+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/ministerie-van-defensie/senior-risk-management-consultant/81580189-DE22-4406-8E30-EBAB9C924F4A": "2026-10-13T21:06:02.238520+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/rijksvastgoedbedrijf-rvb/manager-projectbeheersing-waterbouw-marinehaven/56949F17-D4ED-42ED-9849-A322483486C9": "2026-10-16T21:06:17.872919+00:00",
-  "ted.europa.eu::575987-2026": "2026-08-20T21:06:06.491322+00:00",
   "ted.europa.eu::581705-2026": "2026-08-24T21:00:34.376187+00:00",
   "ted.europa.eu::585867-2026": "2026-08-25T21:00:33.219052+00:00",
   "ted.europa.eu::591116-2026": "2026-08-27T21:00:33.521618+00:00",
@@ -222,8 +222,6 @@
   "ted.europa.eu::711010-2026": "2026-10-14T21:06:19.020272+00:00",
   "ted.europa.eu::719710-2026": "2026-10-19T21:06:05.851299+00:00",
   "ted.europa.eu::721158-2026": "2026-10-19T21:06:05.851299+00:00",
-  "tenderned::436666": "2026-08-20T21:06:06.491322+00:00",
-  "tenderned::436703": "2026-08-20T21:06:06.491322+00:00",
   "tenderned::436903": "2026-08-23T21:00:30.777079+00:00",
   "tenderned::437008": "2026-08-23T21:00:30.777079+00:00",
   "tenderned::437019": "2026-08-25T21:00:33.219052+00:00",
@@ -288,5 +286,6 @@
   "tenderned::442827": "2026-10-04T18:43:52.454254+00:00",
   "tenderned::443081": "2026-10-07T21:06:26.692714+00:00",
   "tenderned::444346": "2026-10-14T21:06:19.020272+00:00",
-  "tenderned::444615": "2026-10-16T21:06:17.872919+00:00"
+  "tenderned::444615": "2026-10-16T21:06:17.872919+00:00",
+  "tenderned::445510": "2026-10-20T21:06:05.579843+00:00"
 }
