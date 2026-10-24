@@ -24,6 +24,7 @@
   "freelance.nl::https://www.freelance.nl/opdracht/1188888-projectcontroller": "2026-10-23T21:06:08.410544+00:00",
   "freelance.nl::https://www.freelance.nl/opdracht/1188905-projectcontroller": "2026-10-23T21:06:08.410544+00:00",
   "freelance.nl::https://www.freelance.nl/opdracht/1188964-freelance-specialist-kwaliteit-compliance-iso-9001-iso-17024": "2026-10-23T21:06:08.410544+00:00",
+  "freelance.nl::https://www.freelance.nl/opdracht/1188968-internal-auditor-coordinator-internal-audit": "2026-10-24T21:06:05.878164+00:00",
   "freep.nl::https://www.freep.nl/opdracht/aanjager-programma-verduurzaming-bedrijventerreinen-voor-gemeenten-utrecht-vijfheerenlanden-nieuwegein-bunnik-en-ijsselstein-1": "2026-10-22T21:06:54.520605+00:00",
   "freep.nl::https://www.freep.nl/opdracht/adviseur-beleid-en-strategie-cluster-sb": "2026-10-22T21:06:54.520605+00:00",
   "freep.nl::https://www.freep.nl/opdracht/adviseur-contracten-cluster-on-b-bruggen": "2026-10-22T21:06:54.520605+00:00",
@@ -222,7 +223,6 @@
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/hoogheemraadschap-de-stichtse-rijnlanden-hdsr/manager-projectbeheersing/21CAB3B3-E302-463B-B88E-BDD0B35A8314": "2026-10-06T21:06:15.885428+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/ministerie-van-defensie/senior-risk-management-consultant/81580189-DE22-4406-8E30-EBAB9C924F4A": "2026-10-13T21:06:02.238520+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/rijksvastgoedbedrijf-rvb/manager-projectbeheersing-waterbouw-marinehaven/56949F17-D4ED-42ED-9849-A322483486C9": "2026-10-16T21:06:17.872919+00:00",
-  "ted.europa.eu::581705-2026": "2026-08-24T21:00:34.376187+00:00",
   "ted.europa.eu::585867-2026": "2026-08-25T21:00:33.219052+00:00",
   "ted.europa.eu::591116-2026": "2026-08-27T21:00:33.521618+00:00",
   "ted.europa.eu::594739-2026": "2026-08-28T21:00:34.104157+00:00",
@@ -262,7 +262,6 @@
   "ted.europa.eu::721158-2026": "2026-10-19T21:06:05.851299+00:00",
   "ted.europa.eu::727482-2026": "2026-10-21T21:05:59.961418+00:00",
   "tenderned::437019": "2026-08-25T21:00:33.219052+00:00",
-  "tenderned::437069": "2026-08-24T21:00:34.376187+00:00",
   "tenderned::437109": "2026-08-25T21:00:33.219052+00:00",
   "tenderned::437353": "2026-08-27T21:00:33.521618+00:00",
   "tenderned::437357": "2026-08-26T21:00:32.411588+00:00",
@@ -326,5 +325,6 @@
   "tenderned::444615": "2026-10-16T21:06:17.872919+00:00",
   "tenderned::445326": "2026-10-21T21:05:59.961418+00:00",
   "tenderned::445510": "2026-10-20T21:06:05.579843+00:00",
-  "tenderned::445680": "2026-10-21T21:05:59.961418+00:00"
+  "tenderned::445680": "2026-10-21T21:05:59.961418+00:00",
+  "tenderned::445878": "2026-10-24T21:06:05.878164+00:00"
 }
