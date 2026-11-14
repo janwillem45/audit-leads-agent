@@ -343,9 +343,6 @@
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/rijkswaterstaat/manager-projectbeheersing-a-vaarwegen-noord-en-a-wegen/5BC6A113-3441-482A-B10A-4A0B4C459C7D": "2026-11-12T22:06:30.398873+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/triodos-bank/risk-management-compliance-specialist/50E07E1E-929A-4DC0-B190-7D227FAD7604": "2026-10-28T22:06:05.303236+00:00",
   "opdrachtoverheid::https://www.opdrachtoverheid.nl/inhuuropdracht/waterschap-vallei-en-veluwe/manager-projectbeheersing/F8C68674-377F-4684-8E2A-1B01963E9946": "2026-11-13T22:06:26.766233+00:00",
-  "ted.europa.eu::633458-2026": "2026-09-15T21:00:41.838938+00:00",
-  "ted.europa.eu::634939-2026": "2026-09-15T21:00:41.838938+00:00",
-  "ted.europa.eu::634994-2026": "2026-09-15T21:00:41.838938+00:00",
   "ted.europa.eu::643202-2026": "2026-09-18T21:00:34.347855+00:00",
   "ted.europa.eu::657970-2026": "2026-09-24T21:00:35.951860+00:00",
   "ted.europa.eu::658562-2026": "2026-09-24T21:00:35.951860+00:00",
@@ -368,10 +365,7 @@
   "ted.europa.eu::778712-2026": "2026-11-09T22:06:18.099978+00:00",
   "ted.europa.eu::787587-2026": "2026-11-12T22:06:30.398873+00:00",
   "ted.europa.eu::791573-2026": "2026-11-13T22:06:26.766233+00:00",
-  "tenderned::439837": "2026-09-15T21:00:41.838938+00:00",
   "tenderned::439947": "2026-09-16T21:00:43.246643+00:00",
-  "tenderned::439976": "2026-09-15T21:00:41.838938+00:00",
-  "tenderned::440007": "2026-09-15T21:00:41.838938+00:00",
   "tenderned::440051": "2026-09-16T21:00:43.246643+00:00",
   "tenderned::440233": "2026-09-17T21:00:43.191021+00:00",
   "tenderned::440342": "2026-09-18T21:00:34.347855+00:00",
@@ -414,5 +408,6 @@
   "tenderned::448592": "2026-11-11T22:06:19.239254+00:00",
   "tenderned::448839": "2026-11-12T22:06:30.398873+00:00",
   "tenderned::448929": "2026-11-12T22:06:30.398873+00:00",
-  "tenderned::449080": "2026-11-13T22:06:26.766233+00:00"
+  "tenderned::449080": "2026-11-13T22:06:26.766233+00:00",
+  "tenderned::449243": "2026-11-14T22:06:11.182045+00:00"
 }
